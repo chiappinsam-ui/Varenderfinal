@@ -89,7 +89,7 @@
         }
 
         /* ====================================================================================================
-           3. CINEMATIC LOADER (IDENTICAL TO SERVICES)
+           3. CINEMATIC LOADER
            ==================================================================================================== */
         #loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -130,7 +130,7 @@
         .loader-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
         /* ====================================================================================================
-           4. NAVIGATION BAR
+           4. NAVIGATION BAR (FIXED LAYOUT)
            ==================================================================================================== */
         header {
             position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); z-index: 1000;
@@ -140,15 +140,38 @@
         }
 
         .container-nav { width: 100%; max-width: 1800px; margin: 0 auto; height: 100%; padding: 0 40px; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        
+        /* Flex Start Alignment */
+        .navbar { 
+            display: flex; 
+            justify-content: flex-start; 
+            align-items: center; 
+            height: 100%; 
+        }
         
         .logo a { 
             font-size: 1.8rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: #fff;
-            display: flex; align-items: center; gap: 4px;
+            display: flex; align-items: center; gap: 10px;
         }
         .logo .va { color: var(--primary-orange); text-shadow: 0 0 15px rgba(255,87,34,0.5); }
+        
+        /* --- LOGO FIX --- */
+        .nav-logo {
+            height: 50px; 
+            width: auto;
+            object-fit: contain;
+            margin-right: 12px;
+            /* Transparency Hack */
+            filter: invert(1) hue-rotate(180deg) brightness(1.2) contrast(1.1);
+            mix-blend-mode: screen;
+            border-radius: 4px;
+        }
 
-        nav { position: absolute; left: 50%; transform: translateX(-50%); }
+        /* Nav Positioning */
+        nav { 
+            position: relative; 
+            margin-left: 50px; 
+        }
         nav ul { display: flex; gap: 40px; }
         nav ul li { position: relative; }
         
@@ -156,17 +179,29 @@
             display: block; padding: 10px 15px;
             font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;
             color: rgba(255,255,255,0.7); transition: color 0.3s;
+            position: relative;
         }
         
         nav ul li a:hover, nav ul li a.active { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
-        nav ul li a::after {
-            content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px;
-            background: var(--primary-orange); transition: 0.3s var(--ease-out-expo); transform: translateX(-50%);
+        
+        /* --- ORANGE DOT STYLE --- */
+        nav ul li a::before {
+            content: ''; 
+            position: absolute; top: 50%; left: -5px; 
+            width: 6px; height: 6px;
+            background: var(--primary-orange); border-radius: 50%; 
+            opacity: 0; transform: translateY(-50%) scale(0);
+            transition: all 0.3s var(--ease-elastic); 
+            box-shadow: 0 0 10px var(--primary-orange);
         }
-        nav ul li a:hover::after { width: 100%; box-shadow: 0 0 10px var(--primary-orange); }
 
-        /* Expanding Call Button */
+        nav ul li a:hover::before, 
+        nav ul li a.active::before { 
+            opacity: 1; transform: translateY(-50%) scale(1); 
+        }
+
         .call-nav-button {
+            margin-left: auto; /* Right align */
             position: relative; height: 48px; width: 48px; border-radius: 24px;
             background: linear-gradient(135deg, var(--primary-orange) 0%, var(--primary-orange-dim) 100%);
             color: white; display: flex; align-items: center; overflow: hidden;
@@ -178,7 +213,7 @@
         .call-nav-button .text { white-space: nowrap; font-weight: 700; font-size: 1rem; opacity: 0; padding-right: 20px; transform: translateX(20px); transition: 0.3s ease; }
         .call-nav-button:hover .text { opacity: 1; transform: translateX(0); }
 
-        .mobile-nav-toggle { display: none; }
+        .mobile-nav-toggle { display: none; margin-left: auto; }
 
         /* ====================================================================================================
            5. CONTACT INTERFACE LAYOUT
@@ -378,20 +413,18 @@
             .info-panel h1 { font-size: 3rem; }
             
             nav { display: none; }
-            .navbar { justify-content: space-between; }
+            .navbar { justify-content: space-between; padding: 0 20px; }
             .call-nav-button { display: none; }
-            .mobile-nav-toggle { display: block; width: 30px; height: 20px; }
+            .mobile-nav-toggle { display: block; width: 30px; height: 20px; margin-left: 0; }
             .mobile-nav-toggle span { display: block; width: 100%; height: 2px; background: #fff; margin-bottom: 6px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- FX LAYERS -->
     <div class="noise-overlay"></div>
     <canvas id="grid-canvas"></canvas>
 
-    <!-- CINEMATIC LOADER -->
     <div id="loader">
         <div class="loader-content">
             <div class="loader-text">
@@ -401,18 +434,20 @@
         </div>
     </div>
 
-    <!-- HEADER -->
     <header>
         <div class="container-nav">
             <div class="navbar">
                 <div class="logo">
-                    <a href="index.html"><span class="va">VA</span>Rendering</a>
+                    <a href="index.html">
+                        <img src="images/logo.png" alt="VARendering Logo" class="nav-logo">
+                        <span class="nav-title"><span class="va">VA</span>Rendering</span>
+                    </a>
                 </div>
                 <nav>
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><a href="services.html">Services</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="Gallary.html">Gallery</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html" class="active">Contact</a></li>
                     </ul>
@@ -428,25 +463,21 @@
         </div>
     </header>
 
-    <!-- MAIN INTERFACE -->
     <section id="contact-interface">
         <div class="container-interface">
             
-            <!-- LEFT: INFO PANEL -->
             <div class="info-panel">
                 <span class="eyebrow">Direct Line</span>
                 <h1>Let's Build<br>Something.</h1>
                 
                 <div class="details-grid">
-                    <!-- Phone -->
                     <div class="detail-item">
                         <div class="detail-icon">📞</div>
                         <div class="detail-text">
-                            <h4>Talk to Vinni</h4>
+                            <h4>Talk to Vini</h4>
                             <p class="scramble-text">0406 687 331</p>
                         </div>
                     </div>
-                    <!-- Email -->
                     <div class="detail-item">
                         <div class="detail-icon">✉️</div>
                         <div class="detail-text">
@@ -454,7 +485,6 @@
                             <p class="scramble-text">info@varendering.com.au</p>
                         </div>
                     </div>
-                    <!-- Area -->
                     <div class="detail-item">
                         <div class="detail-icon">📍</div>
                         <div class="detail-text">
@@ -470,7 +500,6 @@
                 </div>
             </div>
 
-            <!-- RIGHT: HOLOGRAPHIC FORM -->
             <div class="form-wrapper">
                 <div class="form-card" data-tilt>
                     <div id="form-content">
@@ -508,7 +537,6 @@
                         </form>
                     </div>
 
-                    <!-- Success State -->
                     <div id="form-success">
                         <div class="success-icon">✓</div>
                         <h3>Message Received</h3>
@@ -524,7 +552,6 @@
         &copy; 2025 VA Rendering. Adelaide, South Australia.
     </footer>
 
-    <!-- LOGIC ENGINE -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
@@ -628,6 +655,7 @@
                     this.el.innerHTML = output;
                     if (complete === this.queue.length) {
                         this.resolve();
+                        this.el.style.opacity = 1;
                     } else {
                         this.frameRequest = requestAnimationFrame(this.update);
                         this.frame++;
@@ -704,9 +732,11 @@
 
             // --- 6. MOBILE NAV ---
             const navToggle = document.querySelector('.mobile-nav-toggle');
-            navToggle.addEventListener('click', () => {
-                document.body.classList.toggle('nav-open');
-            });
+            if(navToggle) {
+                navToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('nav-open');
+                });
+            }
         });
     </script>
 </body>
